@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>¡PANEL! — Tu universo de cómics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#171522;--paper:#fff4d6;--yellow:#ffe14a;--red:#f04450;
+  --blue:#36b9e8;--purple:#8d5be8;--green:#b9e84b;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;color:var(--ink);font-family:'Comic Neue','Trebuchet MS',sans-serif;
+  background-color:#f8d84d;
+  background-image:radial-gradient(#171522 1.15px,transparent 1.15px);
+  background-size:9px 9px;
+}
+a{color:inherit}
+button,input,select,textarea{font:inherit}
+.top-strip{background:var(--ink);color:white;text-align:center;padding:7px;font-weight:bold;letter-spacing:1px}
+header{
+  position:relative;overflow:hidden;text-align:center;padding:36px 16px 30px;
+  background:var(--red);border-bottom:5px solid var(--ink);
+}
+header:before,header:after{content:"";position:absolute;width:150px;height:150px;border:5px solid var(--ink);border-radius:50%;opacity:.16}
+header:before{left:-45px;top:-60px}header:after{right:-35px;bottom:-90px}
+.logo{
+  display:inline-block;margin:0;font-family:'Bangers',Impact,sans-serif;font-size:clamp(54px,10vw,100px);
+  letter-spacing:4px;color:var(--yellow);-webkit-text-stroke:2px var(--ink);
+  text-shadow:5px 5px 0 var(--ink),8px 8px 0 rgba(0,0,0,.18);transform:rotate(-2deg)
+}
+header p{font-size:19px;font-weight:bold;margin:15px 0 0}
+.burst{position:absolute;font-family:'Bangers';font-size:38px;color:var(--yellow);-webkit-text-stroke:1px var(--ink);text-shadow:2px 2px var(--ink);transform:rotate(-12deg)}
+.burst.one{left:9%;top:25px}.burst.two{right:10%;bottom:20px;transform:rotate(12deg)}
+nav{background:var(--ink);display:flex;justify-content:center;gap:8px;flex-wrap:wrap;padding:13px}
+nav a{color:white;text-decoration:none;font-family:'Bangers';font-size:22px;letter-spacing:1px;padding:7px 14px;border:2px solid transparent;transform:skew(-5deg)}
+nav a:hover{background:var(--yellow);color:var(--ink);border:2px solid white}
+main{width:min(1120px,92%);margin:28px auto}
+.panel{
+  background:var(--paper);border:4px solid var(--ink);box-shadow:7px 7px 0 var(--ink);
+  padding:22px;margin:0 0 25px;position:relative
+}
+.panel h2{font-family:'Bangers';font-size:34px;letter-spacing:1px;margin:0 0 12px}
+.intro{display:grid;grid-template-columns:1.5fr .8fr;gap:20px;align-items:center;background:#fff}
+.intro p{font-size:18px;font-weight:bold}
+.splash{
+  min-height:170px;background:var(--blue);border:4px solid var(--ink);display:grid;place-items:center;
+  clip-path:polygon(8% 0,93% 5%,100% 88%,8% 100%,0 20%);
+  font-family:'Bangers';font-size:clamp(38px,6vw,65px);text-align:center;
+  color:var(--yellow);-webkit-text-stroke:1.5px var(--ink);text-shadow:3px 3px var(--ink);transform:rotate(2deg)
+}
+.section-title{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.section-title h2{margin:0}
+.section-title span{font-family:'Bangers';font-size:25px;background:var(--yellow);padding:4px 12px;border:3px solid var(--ink);transform:rotate(3deg)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.stat{border:3px solid var(--ink);padding:13px;text-align:center;background:var(--blue);box-shadow:4px 4px 0 var(--ink)}
+.stat:nth-child(2){background:var(--yellow)}.stat:nth-child(3){background:var(--green)}
+.stat strong{display:block;font-family:'Bangers';font-size:36px}.stat small{font-weight:bold;font-size:14px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.field.full{grid-column:1/-1}
+label{display:block;font-weight:bold;margin-bottom:5px}
+input,select,textarea{width:100%;padding:11px;border:3px solid var(--ink);border-radius:0;background:white;color:var(--ink);outline:none}
+input:focus,select:focus,textarea:focus{box-shadow:4px 4px 0 var(--blue)}
+textarea{resize:vertical}
+.comic-button{border:3px solid var(--ink);background:var(--yellow);color:var(--ink);padding:10px 18px;font-family:'Bangers';font-size:22px;letter-spacing:1px;box-shadow:4px 4px 0 var(--ink);cursor:pointer}
+.comic-button:hover{background:var(--red);color:white;transform:translate(-1px,-1px)}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 18px}
+.toolbar input{flex:1;min-width:190px}
+.toolbar select{width:auto;min-width:155px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+.book-card{background:white;border:4px solid var(--ink);box-shadow:5px 5px 0 var(--ink);overflow:hidden;position:relative}
+.cover{height:175px;display:grid;place-items:center;text-align:center;padding:14px;border-bottom:4px solid var(--ink);position:relative;overflow:hidden}
+.cover:after{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(23,21,34,.22) 1px,transparent 1px);background-size:6px 6px;pointer-events:none}
+.cover strong{font-family:'Bangers';font-size:35px;line-height:1.05;color:white;-webkit-text-stroke:1px var(--ink);text-shadow:3px 3px 0 var(--ink);z-index:1;transform:rotate(-4deg)}
+.cover small{font-family:'Bangers';font-size:17px;z-index:1}
+.cover.red{background:linear-gradient(135deg,#f04450 50%,#ff9c35 50%)}
+.cover.blue{background:linear-gradient(135deg,#1677bd,#48d1d2)}
+.cover.purple{background:linear-gradient(135deg,#4c238e,#d64d9c)}
+.cover.green{background:linear-gradient(135deg,#398d45,#c4d83e)}
+.cover.yellow{background:linear-gradient(135deg,#f5c52e,#f0782f)}
+.cover.dark{background:linear-gradient(135deg,#272333,#596078)}
+.cover.has-img{height:320px;padding:0;background:var(--ink)}
+.cover.has-img:after,.cover.has-img strong{display:none}
+.cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top center;z-index:1;animation:popin .35s ease-out}
+.cover.cargando strong{animation:pulso 1s infinite alternate}
+@keyframes popin{from{opacity:0;transform:scale(1.05)}to{opacity:1;transform:none}}
+@keyframes pulso{from{opacity:1}to{opacity:.55}}
+.book-info{padding:14px}
+.details{font-size:13px;line-height:1.45;margin:9px 0;color:#34313c}
+.details strong{color:#171522}
+.universe-tag{display:inline-block;background:#8d5be8;color:white;border:2px solid var(--ink);padding:2px 7px;font-size:12px;font-weight:bold;margin:5px 4px 0 0}
+.rating-note{font-size:13px;font-weight:bold;color:#555;margin:4px 0}
+.book-info h3{font-family:'Bangers';font-size:26px;margin:0 0 3px}
+.meta{color:#555;font-size:14px;font-weight:bold;margin:0 0 8px}
+.stars{color:#e49a00;font-size:22px;letter-spacing:2px}
+.review{font-size:15px;margin:8px 0}
+.tag{display:inline-block;background:var(--blue);border:2px solid var(--ink);padding:2px 7px;font-size:12px;font-weight:bold;margin-top:5px}
+.remove{border:2px solid var(--ink);background:#eee;padding:5px 9px;font-weight:bold;cursor:pointer;margin-top:10px}
+.remove:hover{background:var(--red);color:white}.remove:disabled{opacity:.6;cursor:default;background:var(--green)}#buscarCatalogo{font-size:19px;padding:15px}
+.empty{font-weight:bold;background:white;border:3px dashed var(--ink);padding:20px;text-align:center}
+.quote{background:var(--purple);color:white;text-align:center;font-family:'Bangers';font-size:32px;letter-spacing:2px;text-shadow:2px 2px var(--ink);padding:20px;border:4px solid var(--ink);box-shadow:6px 6px 0 var(--ink);margin-bottom:25px;transform:rotate(-1deg)}
+footer{background:var(--ink);color:white;text-align:center;padding:24px;margin-top:45px}
+footer strong{font-family:'Bangers';font-size:26px;color:var(--yellow)}
+.story-filters button{border:3px solid var(--ink);background:white;padding:7px 14px;font-family:'Bangers';font-size:20px;letter-spacing:1px;cursor:pointer;box-shadow:3px 3px 0 var(--ink)}
+.story-filters button:hover{background:var(--yellow)}
+.story-filters button.activo{background:var(--red);color:white}
+.stories{grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+.story-card{background:white;border:4px solid var(--ink);box-shadow:5px 5px 0 var(--ink);display:flex;flex-direction:column}
+.story-head{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:4px solid var(--ink)}
+.story-head.creacion{background:var(--blue)}.story-head.curiosidad{background:var(--green)}.story-head.bio{background:var(--yellow)}
+.story-kind{font-family:'Bangers';font-size:20px;letter-spacing:1px}
+.avatar{width:54px;height:54px;flex:none;border-radius:50%;border:3px solid var(--ink);background:var(--red);color:white;font-family:'Bangers';font-size:26px;display:grid;place-items:center;text-shadow:2px 2px var(--ink)}
+.avatar.emoji{background:white;font-size:26px;text-shadow:none}
+.story-body{padding:14px}
+.story-body h3{font-family:'Bangers';font-size:27px;margin:0 0 8px;line-height:1.1}
+.story-body p{margin:0 0 10px;line-height:1.5;font-size:16px}
+@media(max-width:650px){
+ .intro{grid-template-columns:1fr}.splash{min-height:115px}
+ .form-grid{grid-template-columns:1fr}.field.full{grid-column:auto}
+ .stats{gap:7px}.stat{padding:9px 4px}.stat strong{font-size:29px}
+ .panel{padding:16px}.burst{font-size:27px}
+}
+</style>
+</head>
+<body>
+<div class="top-strip">¡ATENCIÓN, LECTORES! — TU PRÓXIMA HISTORIA FAVORITA EMPIEZA ACÁ</div>
+<header id="inicio">
+  <span class="burst one">¡POW!</span>
+  <h1 class="logo">¡PANEL!</h1>
+  <p>EL RINCÓN PARA LEER, PUNTUAR Y COLECCIONAR CÓMICS</p>
+  <span class="burst two">¡BAM!</span>
+</header>
+<nav>
+  <a href="#inicio">INICIO</a><a href="#historias">HISTORIAS</a><a href="#agregar">PUNTUAR</a><a href="#coleccion">MI COLECCIÓN</a><a href="#ranking">RANKING</a>
+</nav>
+<main id="vistaInicio">
+  <section class="panel intro">
+    <div>
+      <h2>¡Bienvenido al multiverso del cómic!</h2>
+      <p>¿Terminaste un número, un tomo o una novela gráfica? ¡Dale tu veredicto! Guardá tus lecturas, puntuá las historias y escribí reseñas. Acá el crítico sos vos.</p>
+      <p><strong>Desde superhéroes hasta historias independientes: cada lectura cuenta.</strong></p>
+    </div>
+    <div class="splash">¡ZAP!<br><small>¡A LEER!</small></div>
+  </section>
+
+  <section class="panel" id="descubrir">
+    <div class="section-title"><h2>¿Qué cómic vas a leer hoy?</h2><span>¡ELIGE!</span></div>
+    <p>Cuatro recomendaciones al azar para descubrir y puntuar, como en una cartelera de lecturas.</p>
+    <div class="cards" id="recomendados"></div>
+    <button class="comic-button" id="mezclar" type="button">¡OTROS CUATRO!</button>
+  </section>
+
+  <section class="panel" id="buscar-comics">
+    <div class="section-title"><h2>Buscar un cómic</h2><span>¡BÚSCALO!</span></div>
+    <input id="buscarCatalogo" type="search" placeholder="Escribí el título, por ejemplo: Watchmen...">
+    <div class="cards" id="resultadosBusqueda" style="margin-top:16px"></div>
+    <p id="sinBusqueda" class="empty">Escribí arriba para encontrar un cómic entre los títulos disponibles.</p>
+  </section>
+
+  <section class="panel" id="ranking">
+    <div class="section-title"><h2>Tu actividad comiquera</h2><span>¡WOW!</span></div>
+    <div class="stats">
+      <div class="stat"><strong id="total">3</strong><small>CÓMICS EN LA LISTA</small></div>
+      <div class="stat"><strong id="promedio">4.7</strong><small>PROMEDIO DE NOTAS</small></div>
+      <div class="stat"><strong id="cinco">2</strong><small>¡CINCO ESTRELLAS!</small></div>
+    </div>
+  </section>
+
+  <section class="panel" id="agregar">
+    <div class="section-title"><h2>¡Dale tu puntuación!</h2><span>POW!</span></div>
+    <form id="comicForm">
+      <div class="form-grid">
+        <div class="field"><label for="titulo">Nombre del cómic *</label><input id="titulo" required placeholder="Ej: Batman: Año Uno"></div>
+        <div class="field"><label for="autor">Autor / guionista</label><input id="autor" placeholder="Ej: Frank Miller"></div>
+        <div class="field"><label for="editorial">Editorial</label><select id="editorial"><option>DC Comics</option><option>Marvel Comics</option><option>Image Comics</option><option>Dark Horse Comics</option><option>Kodansha</option><option>Hakusensha</option><option>Shogakukan</option><option>Pantheon Books</option><option>Fantagraphics Books</option><option>L'Association</option><option>Les Humanoïdes Associés</option><option>Editorial Frontera</option><option>Otras / varias</option></select></div>
+        <div class="field"><label for="universo">Universo / línea</label><select id="universo"><option>DC</option><option>Marvel</option><option>Image</option><option>Manga</option><option>Independiente</option><option>Absolute</option><option>Otro</option></select></div>
+        <div class="field"><label for="formato">Formato</label><select id="formato"><option>Número individual</option><option>Tomo / recopilatorio</option><option>Novela gráfica</option><option>Manga</option><option>Otro</option></select></div>
+        <div class="field"><label for="nota">Tu puntuación</label><select id="nota"><option value="5">5 — ¡Una obra maestra!</option><option value="4">4 — ¡Muy bueno!</option><option value="3">3 — Está bien</option><option value="2">2 — Podría mejorar</option><option value="1">1 — No me convenció</option></select></div>
+        <div class="field"><label for="genero">Género</label><select id="genero"><option>Superhéroes</option><option>Acción / aventura</option><option>Drama</option><option>Terror</option><option>Ciencia ficción</option><option>Fantasía</option><option>Otro</option></select></div>
+        <div class="field full"><label for="opinion">Tu reseña</label><textarea id="opinion" rows="3" placeholder="¿Qué te pareció el dibujo, la historia y los personajes?"></textarea></div>
+      </div>
+      <button class="comic-button" type="submit">¡AGREGAR A MI COLECCIÓN!</button>
+    </form>
+  </section>
+
+  <div class="quote">“UN GRAN CÓMIC MERECE UNA GRAN RESEÑA”</div>
+
+  <section id="coleccion">
+    <div class="section-title"><h2>Mi colección</h2><span>¡BAM!</span></div><p>Acá aparecen los cómics que guardaste. Si quitás uno, solo sale de esta colección: sigue disponible en el catálogo para volver a agregarlo.</p>
+    <div class="toolbar">
+      
+      <select id="filtro"><option value="Todos">Todas las editoriales</option><option>DC Comics</option><option>Marvel Comics</option><option>Image Comics</option><option>Dark Horse Comics</option><option>Kodansha</option><option>Hakusensha</option><option>Shogakukan</option><option>Pantheon Books</option><option>Fantagraphics Books</option><option>L'Association</option><option>Les Humanoïdes Associés</option><option>Editorial Frontera</option><option>Otras / varias</option></select>
+      <select id="filtroUniverso"><option value="Todos">Todos los universos</option><option>DC</option><option>Marvel</option><option>Image</option><option>Manga</option><option>Independiente</option><option>Absolute</option></select>
+      <select id="orden"><option value="reciente">Más recientes</option><option value="nota">Mejor puntuados</option><option value="alfabetico">Orden alfabético</option></select>
+    </div>
+    <div class="cards" id="lista"></div>
+    <p id="sinResultados" class="empty" hidden>¡UPS! No encontramos cómics con esa búsqueda.</p>
+  </section>
+</main>
+<main id="vistaHistorias" hidden>
+  <section class="panel" id="historias">
+    <div class="section-title"><h2>Historias</h2><span>¡DETRÁS DE LA VIÑETA!</span></div>
+    <p>Cómo nacieron algunos cómics, datos curiosos y las vidas de quienes los dibujaron y escribieron.</p>
+    <div class="toolbar story-filters" id="filtrosHistorias">
+      <button type="button" class="activo" data-cat="todas">TODAS</button>
+      <button type="button" data-cat="creacion">CREACIÓN</button>
+      <button type="button" data-cat="curiosidad">CURIOSIDADES</button>
+      <button type="button" data-cat="bio">BIOGRAFÍAS</button>
+    </div>
+    <div class="cards stories" id="historiasLista"></div>
+  </section>
+  <p style="text-align:center"><a class="comic-button" href="#inicio" style="display:inline-block;text-decoration:none">← VOLVER AL INICIO</a></p>
+</main>
+<footer><strong>¡PANEL!</strong><br>Hecho por y para amantes de los cómics.<br>¡FIN DEL NÚMERO!</footer>
+
+<script>
+const catalogo=[["Watchmen", "1986–1987", "Alan Moore (guion) · Dave Gibbons (dibujo)", "Alan Moore y Dave Gibbons", "DC Comics", "DC"], ["Batman: The Dark Knight Returns", "1986", "Frank Miller (guion y dibujo) · Klaus Janson (tintas)", "Frank Miller; personaje: Bob Kane y Bill Finger", "DC Comics", "DC"], ["Maus", "1980–1991", "Art Spiegelman (guion y dibujo)", "Art Spiegelman", "Pantheon Books / Raw Books", "Independiente"], ["The Sandman", "1989–1996", "Neil Gaiman (guion) · Sam Kieth, Mike Dringenberg, Jill Thompson y otros (dibujo)", "Neil Gaiman, Sam Kieth y Mike Dringenberg", "DC Comics / Vertigo", "DC"], ["Akira", "1982–1990", "Katsuhiro Otomo (guion y dibujo)", "Katsuhiro Otomo", "Kodansha (Young Magazine)", "Manga"], ["El Eternauta", "1957–1959", "Héctor Germán Oesterheld (guion) · Francisco Solano López (dibujo)", "Héctor Germán Oesterheld y Francisco Solano López", "Editorial Frontera (Hora Cero Semanal)", "Independiente"], ["All-Star Superman", "2005–2008", "Grant Morrison (guion) · Frank Quitely (dibujo)", "Grant Morrison y Frank Quitely; personaje: Jerry Siegel y Joe Shuster", "DC Comics", "DC"], ["Batman: Year One", "1987", "Frank Miller (guion) · David Mazzucchelli (dibujo)", "Frank Miller y David Mazzucchelli; personaje: Bob Kane y Bill Finger", "DC Comics", "DC"], ["V for Vendetta", "1982–1989", "Alan Moore (guion) · David Lloyd (dibujo)", "Alan Moore y David Lloyd", "Quality Communications (Warrior) / DC Comics", "Independiente"], ["Daredevil: Born Again", "1986", "Frank Miller (guion) · David Mazzucchelli (dibujo)", "Frank Miller y David Mazzucchelli; personaje: Stan Lee y Bill Everett", "Marvel Comics", "Marvel"], ["Saga", "2012–presente", "Brian K. Vaughan (guion) · Fiona Staples (dibujo)", "Brian K. Vaughan y Fiona Staples", "Image Comics", "Image"], ["Persépolis", "2000–2003", "Marjane Satrapi (guion y dibujo)", "Marjane Satrapi", "L'Association", "Independiente"], ["Kingdom Come", "1996", "Mark Waid (guion) · Alex Ross (dibujo)", "Mark Waid y Alex Ross; personajes de DC Comics", "DC Comics", "DC"], ["X-Men: The Dark Phoenix Saga", "1980", "Chris Claremont (guion) · John Byrne (dibujo)", "Chris Claremont y John Byrne; X-Men: Stan Lee y Jack Kirby", "Marvel Comics", "Marvel"], ["El Incal", "1980–1988", "Alejandro Jodorowsky (guion) · Moebius / Jean Giraud (dibujo)", "Alejandro Jodorowsky y Moebius", "Les Humanoïdes Associés (Métal Hurlant)", "Independiente"], ["From Hell", "1989–1998", "Alan Moore (guion) · Eddie Campbell (dibujo)", "Alan Moore y Eddie Campbell", "Taboo / Kitchen Sink Press / Top Shelf Productions", "Independiente"], ["Spider-Man: Kraven's Last Hunt", "1987", "J.M. DeMatteis (guion) · Mike Zeck (dibujo)", "J.M. DeMatteis y Mike Zeck; personaje: Stan Lee y Steve Ditko", "Marvel Comics", "Marvel"], ["Berserk", "1989–presente", "Kentaro Miura (guion y dibujo)", "Kentaro Miura", "Hakusensha", "Manga"], ["Batman: The Killing Joke", "1988", "Alan Moore (guion) · Brian Bolland (dibujo)", "Alan Moore y Brian Bolland; personajes: Bob Kane, Bill Finger y Jerry Robinson", "DC Comics", "DC"], ["A Contract with God", "1978", "Will Eisner (guion y dibujo)", "Will Eisner", "Baronet Books", "Independiente"], ["Monster", "1994–2001", "Naoki Urasawa (guion y dibujo)", "Naoki Urasawa", "Shogakukan", "Manga"], ["Swamp Thing (etapa de Alan Moore)", "1984–1987", "Alan Moore (guion) · Stephen Bissette y John Totleben (dibujo)", "Personaje original: Len Wein y Bernie Wrightson", "DC Comics", "DC"], ["Jimmy Corrigan, the Smartest Kid on Earth", "1995–2000", "Chris Ware (guion y dibujo)", "Chris Ware", "Pantheon Books", "Independiente"], ["Astonishing X-Men: Gifted", "2004", "Joss Whedon (guion) · John Cassaday (dibujo)", "Joss Whedon y John Cassaday; X-Men: Stan Lee y Jack Kirby", "Marvel Comics", "Marvel"], ["Hellboy: Seed of Destruction", "1994", "Mike Mignola (guion y dibujo) · John Byrne (diálogos)", "Mike Mignola", "Dark Horse Comics", "Independiente"], ["Y: The Last Man", "2002–2008", "Brian K. Vaughan (guion) · Pia Guerra (dibujo)", "Brian K. Vaughan y Pia Guerra", "DC Comics / Vertigo", "DC"], ["Preacher", "1995–2000", "Garth Ennis (guion) · Steve Dillon (dibujo)", "Garth Ennis y Steve Dillon", "DC Comics / Vertigo", "DC"], ["Ghost World", "1993–1997", "Daniel Clowes (guion y dibujo)", "Daniel Clowes", "Fantagraphics Books", "Independiente"], ["Marvels", "1994", "Kurt Busiek (guion) · Alex Ross (dibujo)", "Kurt Busiek y Alex Ross; universo Marvel", "Marvel Comics", "Marvel"], ["Batman: The Long Halloween", "1996–1997", "Jeph Loeb (guion) · Tim Sale (dibujo)", "Jeph Loeb y Tim Sale; personaje: Bob Kane y Bill Finger", "DC Comics", "DC"], ["Absolute Batman", "2024–presente", "Scott Snyder (guion) · Nick Dragotta (dibujo)", "Scott Snyder y Nick Dragotta; personaje: Bob Kane y Bill Finger", "DC Comics", "Absolute"], ["Absolute Superman", "2024–presente", "Jason Aaron (guion) · Rafa Sandoval (dibujo)", "Jason Aaron y Rafa Sandoval; personaje: Jerry Siegel y Joe Shuster", "DC Comics", "Absolute"], ["Absolute Green Lantern", "2025–presente", "Al Ewing (guion) · Jahnoy Lindsay (dibujo)", "Al Ewing y Jahnoy Lindsay; personaje: Green Lantern de DC", "DC Comics", "Absolute"], ["Absolute Martian Manhunter", "2025 · 12 números", "Deniz Camp (guion) · Javier Rodríguez (dibujo)", "Deniz Camp y Javier Rodríguez; personaje: Joseph Samachson y Joe Certa", "DC Comics", "Absolute"], ["Absolute Flash", "2025–presente", "Jeff Lemire (guion) · Nick Robles (dibujo)", "Jeff Lemire y Nick Robles; personaje: Flash de DC", "DC Comics", "Absolute"]];
+const form=document.getElementById('comicForm');
+const lista=document.getElementById('lista');
+const colores=['red','blue','purple','green','yellow','dark'];
+const storageKey='panelComicRate_v2';
+let estado={guardados:[], notas:{}, resenas:{}, extras:[]};
+try { estado={...estado,...JSON.parse(localStorage.getItem(storageKey)||'{}')}; } catch(e) {}
+const guardarEstado=()=>localStorage.setItem(storageKey,JSON.stringify(estado));
+const idDe=c=>c[0].toLowerCase();
+function todos(){return [...catalogo,...estado.extras];}
+function universoDe(c){return c[5];}
+// ===== Portadas automáticas: Wikipedia → Google Books → Open Library =====
+const coverKey='panelComicRate_covers_v2';
+let coverCache={};
+try{coverCache=JSON.parse(localStorage.getItem(coverKey)||'{}');}catch(e){}
+const coverPendientes={};
+// Páginas de Wikipedia donde está la portada (para los títulos que la búsqueda no encontraba)
+const TITULOS_WIKI={
+ "batman: the dark knight returns":["The Dark Knight Returns","Batman: The Dark Knight Returns"],
+ "batman: year one":["Batman: Year One"],
+ "batman: the killing joke":["Batman: The Killing Joke"],
+ "batman: the long halloween":["Batman: The Long Halloween","The Long Halloween"],
+ "spider-man: kraven's last hunt":["Kraven's Last Hunt"],
+ "absolute batman":["Absolute Batman"],
+ "absolute superman":["Absolute Superman"],
+ "absolute green lantern":["Absolute Green Lantern"],
+ "absolute martian manhunter":["Absolute Martian Manhunter"],
+ "absolute flash":["Absolute Flash"]
+};
+const norm=t=>(t||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9 ]/g,' ');
+function coincide(buscado,encontrado){
+ const w=norm(buscado).split(/\s+/).filter(x=>x.length>2);
+ if(!w.length)return true;
+ const f=norm(encontrado);
+ return w.filter(x=>f.includes(x)).length/w.length>=0.6;
+}
+function precargar(url){
+ return new Promise(res=>{const im=new Image();im.referrerPolicy='no-referrer';im.onload=()=>res(im.naturalWidth>40);im.onerror=()=>res(false);im.src=url;});
+}
+const WIKI='https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&prop=pageimages&piprop=thumbnail&pithumbsize=500&';
+async function paginasWiki(url){
+ const r=await fetch(url);if(!r.ok)return [];
+ const d=await r.json();
+ return Object.values((d.query&&d.query.pages)||{}).sort((a,b)=>(a.index||0)-(b.index||0));
+}
+async function viaWikipedia(titulo,autor,id){
+ // 1) página exacta
+ for(const t of (TITULOS_WIKI[id]||[titulo])){
+  try{
+   for(const pg of await paginasWiki(WIKI+'redirects=1&titles='+encodeURIComponent(t))){
+    if(pg.thumbnail&&coincide(titulo,pg.title)&&await precargar(pg.thumbnail.source))return pg.thumbnail.source;
+   }
+  }catch(e){}
+ }
+ // 2) búsqueda
+ for(const q of [titulo+' '+autor,titulo+' comic']){
+  for(const pg of await paginasWiki(WIKI+'generator=search&gsrlimit=8&gsrsearch='+encodeURIComponent(q))){
+   if(pg.thumbnail&&coincide(titulo,pg.title)&&await precargar(pg.thumbnail.source))return pg.thumbnail.source;
+  }
+ }
+ return null;
+}
+async function viaGoogleBooks(titulo,autor){
+ const consultas=['intitle:"'+titulo+'"'+(autor?' inauthor:"'+autor+'"':''),titulo+' '+autor+' comic'];
+ for(const q of consultas){
+  const r=await fetch('https://www.googleapis.com/books/v1/volumes?maxResults=10&q='+encodeURIComponent(q));
+  if(!r.ok)continue;
+  const d=await r.json();
+  for(const it of (d.items||[])){
+   const v=it.volumeInfo||{},im=v.imageLinks;
+   if(im&&coincide(titulo,v.title)){
+    const u=(im.thumbnail||im.smallThumbnail||'').replace('http://','https://').replace('&edge=curl','');
+    if(u&&await precargar(u))return u;
+   }
+  }
+ }
+ return null;
+}
+async function viaOpenLibrary(titulo,autor){
+ for(const q of ['title='+encodeURIComponent(titulo)+(autor?'&author='+encodeURIComponent(autor):''),'q='+encodeURIComponent(titulo+' '+autor)]){
+  const r=await fetch('https://openlibrary.org/search.json?limit=10&fields=title,cover_i&'+q);
+  if(!r.ok)continue;
+  const d=await r.json();
+  for(const doc of (d.docs||[])){
+   if(doc.cover_i&&coincide(titulo,doc.title)){
+    const u='https://covers.openlibrary.org/b/id/'+doc.cover_i+'-L.jpg';
+    if(await precargar(u))return u;
+   }
+  }
+ }
+ return null;
+}
+function obtenerPortada(c){
+ const id=idDe(c);
+ if(coverCache[id])return Promise.resolve(coverCache[id]);
+ if(coverPendientes[id])return coverPendientes[id];
+ const titulo=c[0].replace(/\s*\(.*?\)\s*/g,' ').trim();
+ const autor=(c[2]||'').split(/[·(]/)[0].trim();
+ const a=autor==='Sin especificar'?'':autor;
+ coverPendientes[id]=(async()=>{
+  let url=null;
+  for(const fuente of [viaWikipedia,viaGoogleBooks,viaOpenLibrary]){
+   try{url=await fuente(titulo,a,id);}catch(e){}
+   if(url)break;
+  }
+  if(url){coverCache[id]=url;try{localStorage.setItem(coverKey,JSON.stringify(coverCache));}catch(e){}}
+  else delete coverPendientes[id];
+  return url;
+ })();
+ return coverPendientes[id];
+}
+function cargarPortada(c,cover){
+ cover.classList.add('cargando');
+ obtenerPortada(c).then(url=>{
+  cover.classList.remove('cargando');
+  if(!url)return;
+  const img=document.createElement('img');
+  img.alt='Portada de '+c[0];img.referrerPolicy='no-referrer';
+  img.onload=()=>{cover.classList.add('has-img');cover.append(img);};
+  img.src=url;
+ });
+}
+function crearTarjeta(c,modo){
+ const id=idDe(c), nota=Number(estado.notas[id]||0), reseña=estado.resenas[id]||'';
+ const card=document.createElement('article'); card.className='book-card';
+ const cover=document.createElement('div'); cover.className='cover '+colores[Math.abs([...id].reduce((a,x)=>a+x.charCodeAt(0),0))%colores.length];
+ const ct=document.createElement('strong');ct.textContent=c[0].toUpperCase();cover.append(ct);cargarPortada(c,cover);
+ const info=document.createElement('div');info.className='book-info';
+ const h=document.createElement('h3');h.textContent=c[0];
+ const meta=document.createElement('p');meta.className='meta';meta.textContent=c[1]+' · '+c[4];
+ const details=document.createElement('div');details.className='details';
+ for(const [label,value] of [['Guion / dibujo:',c[2]],['Creadores:',c[3]]]){
+  const p=document.createElement('p'),b=document.createElement('strong');b.textContent=label+' ';p.append(b,document.createTextNode(value));details.append(p);
+ }
+ const stars=document.createElement('div');stars.className='stars';stars.textContent='★'.repeat(nota)+'☆'.repeat(5-nota);
+ const rate=document.createElement('p');rate.className='rating-note';rate.textContent=nota?'Tu puntuación: '+nota+'/5':'Todavía sin puntuar';
+ const review=document.createElement('p');review.className='review';review.textContent=reseña||'Todavía no escribiste una reseña.';
+ const tag=document.createElement('span');tag.className='tag';tag.textContent=c[4].toUpperCase();
+ const ut=document.createElement('span');ut.className='universe-tag';ut.textContent='UNIVERSO '+universoDe(c).toUpperCase();
+ const action=document.createElement('button');action.className='remove';
+ if(modo==='coleccion'){
+  action.textContent='QUITAR DE MI LISTA';
+  action.addEventListener('click',()=>{estado.guardados=estado.guardados.filter(x=>x!==id);guardarEstado();renderColeccion();});
+ }else{
+  action.textContent=estado.guardados.includes(id)?'YA ESTÁ EN MI LISTA':'＋ AGREGAR A MI LISTA';
+  action.disabled=estado.guardados.includes(id);
+  action.addEventListener('click',()=>{if(!estado.guardados.includes(id))estado.guardados.push(id);guardarEstado();renderDescubrir();renderBusqueda();renderColeccion();});
+ }
+ info.append(h,meta,details,stars,rate,review,tag,ut,document.createElement('br'),action);
+ card.append(cover,info);return card;
+}
+function renderDescubrir(){
+ const box=document.getElementById('recomendados');box.replaceChildren();
+ const pool=todos().slice().sort(()=>Math.random()-.5).slice(0,4);
+ pool.forEach(c=>box.append(crearTarjeta(c,'descubrir')));
+}
+function renderBusqueda(){
+ const q=document.getElementById('buscarCatalogo').value.trim().toLowerCase();
+ const box=document.getElementById('resultadosBusqueda'),empty=document.getElementById('sinBusqueda');box.replaceChildren();
+ if(!q){empty.hidden=false;empty.textContent='Escribí arriba para encontrar un cómic entre los títulos disponibles.';return;}
+ const q2=q.replace(/s$/,'');
+ const matches=todos().filter(c=>{const t=c[0].toLowerCase();return t.includes(q)||t.includes(q2);});
+ matches.forEach(c=>box.append(crearTarjeta(c,'buscar')));
+ empty.hidden=matches.length>0; if(!matches.length)empty.textContent='No encontramos ese cómic en el catálogo.';
+}
+function renderColeccion(){
+ const box=document.getElementById('lista');box.replaceChildren();
+ const filtro=document.getElementById('filtro').value, fu=document.getElementById('filtroUniverso').value;
+ const items=estado.guardados.map(id=>todos().find(c=>idDe(c)===id)).filter(Boolean)
+ .filter(c=>(filtro==='Todos'||c[4]===filtro)&&(fu==='Todos'||c[5]===fu));
+ const orden=document.getElementById('orden').value;
+ if(orden==='alfabetico')items.sort((a,b)=>a[0].localeCompare(b[0]));
+ if(orden==='nota')items.sort((a,b)=>(estado.notas[idDe(b)]||0)-(estado.notas[idDe(a)]||0));
+ items.forEach(c=>box.append(crearTarjeta(c,'coleccion')));
+ document.getElementById('sinResultados').hidden=items.length>0;
+ const puntuados=estado.guardados.filter(id=>Number(estado.notas[id])>0);
+ const suma=puntuados.reduce((n,id)=>n+Number(estado.notas[id]),0);
+ document.getElementById('total').textContent=estado.guardados.length;
+ document.getElementById('promedio').textContent=puntuados.length?(suma/puntuados.length).toFixed(1):'—';
+ document.getElementById('cinco').textContent=puntuados.filter(id=>Number(estado.notas[id])===5).length;
+}
+document.getElementById('buscarCatalogo').addEventListener('input',renderBusqueda);
+document.getElementById('mezclar').addEventListener('click',renderDescubrir);
+['filtro','filtroUniverso','orden'].forEach(id=>document.getElementById(id).addEventListener('change',renderColeccion));
+form.addEventListener('submit',e=>{
+ e.preventDefault();
+ const titulo=document.getElementById('titulo').value.trim();if(!titulo)return;
+ const editorial=document.getElementById('editorial').value, universo=document.getElementById('universo').value;
+ const autor=document.getElementById('autor').value.trim()||'Sin especificar';
+ const c=[titulo,'Agregado por vos',autor,autor,editorial,universo];
+ const id=idDe(c);
+ if(!todos().some(x=>idDe(x)===id))estado.extras.push(c);
+ if(!estado.guardados.includes(id))estado.guardados.push(id);
+ estado.notas[id]=Number(document.getElementById('nota').value);
+ estado.resenas[id]=document.getElementById('opinion').value.trim();
+ guardarEstado();form.reset();renderDescubrir();renderBusqueda();renderColeccion();
+});
+// ===== Historias =====
+const historias=[
+["creacion","Superman: dos adolescentes y un sueño","💥","Jerry Siegel y Joe Shuster, dos chicos de Cleveland, soñaron a Superman durante años y nadie quería publicarlo. Debutó en Action Comics #1 (1938) y con él nació el género de superhéroes. Vendieron los derechos a DC por apenas 130 dólares, y décadas después tuvieron que pelear para que se reconociera su aporte.",["1938","DC Comics"]],
+["creacion","Batman y el creador olvidado","💥","Bob Kane firmó el personaje en Detective Comics #27 (1939), pero buena parte de su identidad salió de Bill Finger: el traje gris con capucha y capa, el nombre Bruce Wayne y la ciudad de Gotham. Finger murió en 1974 sin reconocimiento; recién en 2015 DC empezó a acreditarlo como cocreador.",["1939","DC Comics"]],
+["creacion","Spider-Man: el héroe que nadie quería","💥","El editor Martin Goodman le dijo a Stan Lee que a nadie le gustaría un héroe adolescente y que la gente odia las arañas. Lee lo publicó igual en Amazing Fantasy #15 (1962), una colección a punto de cancelarse, y las ventas fueron tan buenas que Spider-Man tuvo su propia serie. Steve Ditko lo dibujó y diseñó su traje.",["1962","Marvel"]],
+["creacion","Watchmen: héroes de reemplazo","💥","Alan Moore pensó la historia para los personajes de Charlton Comics que DC acababa de comprar. Como DC quería seguir usándolos, Moore y el dibujante Dave Gibbons crearon héroes nuevos inspirados en aquellos. La serie de 12 números (1986–1987) terminó en la lista de Time de las 100 mejores novelas en inglés desde 1923.",["1986–1987","DC Comics"]],
+["creacion","Maus: ratones y gatos","💥","Art Spiegelman cuenta la historia de su padre Vladek, sobreviviente del Holocausto, y la entrelaza con la difícil relación entre ambos. Dibujó a los judíos como ratones y a los nazis como gatos. Se publicó por entregas en la revista RAW desde 1980 y en 1992 recibió un premio Pulitzer especial.",["1980–1991","Pulitzer 1992"]],
+["creacion","El Eternauta: una nevada mortal","💥","Héctor Germán Oesterheld y Francisco Solano López lo publicaron desde 1957 en la revista Hora Cero Semanal: una nevada letal cae sobre Buenos Aires y un grupo de sobrevivientes se organiza para resistir. Es un clásico del cómic argentino. Oesterheld fue secuestrado por la dictadura en 1977 y sigue desaparecido.",["1957","Argentina"]],
+["curiosidad","El Hulk que nació gris","💡","En The Incredible Hulk #1 (1962) el personaje era gris: hubo problemas de impresión para mantener ese tono. Desde el número 2 pasó a ser verde. Stan Lee se inspiró en Frankenstein y en Dr. Jekyll y Mr. Hyde.",["1962","Marvel"]],
+["curiosidad","El Capitán América le pega a Hitler","💡","La portada del número 1 (1941) mostraba al Capitán América golpeando a Hitler, meses antes de que Estados Unidos entrara en la Segunda Guerra Mundial. Sus creadores, Joe Simon y Jack Kirby, recibieron cartas de protesta e incluso amenazas.",["1941","Marvel"]],
+["curiosidad","Mafalda nació para vender electrodomésticos","💡","Quino dibujó las primeras tiras de Mafalda para una campaña publicitaria de electrodomésticos que nunca se usó. Igual las publicó: la tira debutó en la revista Primera Plana en 1964 y se convirtió en un ícono mundial.",["1964","Argentina"]],
+["curiosidad","Stan Lee no se llamaba Stan Lee","💡","Su nombre real era Stanley Martin Lieber. Usó el seudónimo «Stan Lee» porque quería guardar su nombre verdadero para escribir novelas «serias». Con los años terminó cambiándoselo legalmente.",["Marvel"]],
+["curiosidad","Wonder Woman y el psicólogo","💡","Fue creada en 1941 por William Moulton Marston, un psicólogo que también contribuyó a las investigaciones que llevaron al detector de mentiras. De ahí viene su Lazo de la Verdad.",["1941","DC Comics"]],
+["curiosidad","Una revista de 10 centavos","💡","Action Comics #1, donde debutó Superman, costaba 10 centavos en 1938. Hoy los pocos ejemplares que sobreviven se venden por millones: uno ya superó los 3 millones de dólares.",["1938","Coleccionismo"]],
+["bio","Stan Lee","SL","Stanley Martin Lieber nació en Nueva York y entró de adolescente a Timely Comics (la futura Marvel). En 1961, cuando pensaba dejar los cómics, su esposa Joan lo animó a escribir historias como a él le gustaban: así nació Fantastic Four junto a Jack Kirby. Siguieron Spider-Man, Hulk, Thor, Iron Man, X-Men y Daredevil, superhéroes con problemas muy humanos. Fue la cara de Marvel durante décadas, hizo cameos en sus películas y se despedía con su grito: «¡Excelsior!».",["1922–2018","Editor y guionista","Marvel"]],
+["bio","Alex Ross","AR","Nació en Portland (Oregón) y creció en Texas; su madre era ilustradora y le transmitió el oficio. Estudió en la Academia Americana de Arte de Chicago. Se hizo famoso con Marvels (1994, con Kurt Busiek) y Kingdom Come (1996, con Mark Waid), pintados con gouache en un estilo casi fotográfico. Suele usar modelos reales, entre ellos amigos y familiares, para dar vida a sus héroes.",["1970","Pintor","Marvels · Kingdom Come"]],
+["bio","Jack Kirby","JK","Jacob Kurtzberg creció en un barrio humilde de Nueva York. Con Joe Simon creó al Capitán América (1940) y, junto a Stan Lee, ayudó a crear Fantastic Four, Hulk, Thor, X-Men y los Vengadores. Su dibujo explosivo definió el aspecto de los superhéroes. En DC creó el «Cuarto Mundo» (New Gods, Mister Miracle). Lo llaman «el Rey» del cómic.",["1917–1994","Dibujante","Marvel · DC"]],
+["bio","Steve Ditko","SD","Nacido en Pensilvania, dibujó los primeros números de Spider-Man y diseñó su traje; también cocreó a Doctor Strange (1963), con sus mundos psicodélicos. En 1966 dejó Marvel y siguió en otras editoriales con Blue Beetle, The Question y Mr. A. Muy reservado, rara vez concedía entrevistas.",["1927–2018","Dibujante","Spider-Man · Doctor Strange"]],
+["bio","Frank Miller","FM","Nació en Maryland y se crió en Vermont. En los 80 convirtió a Daredevil en una saga oscura y revolucionó a Batman con The Dark Knight Returns (1986) y Batman: Year One (1987). Después llegaron Sin City y 300. Codirigió la película Sin City (2005) junto a Robert Rodriguez.",["1957","Guionista y dibujante","Batman · Sin City"]],
+["bio","Will Eisner","WE","Nacido en Brooklyn, creó la tira The Spirit en 1940 y experimentó con encuadres y una narración casi cinematográfica. En 1978 publicó Un contrato con Dios, considerada una de las primeras novelas gráficas modernas, y ayudó a popularizar ese término. Los premios Eisner, los más importantes del cómic estadounidense, llevan su nombre.",["1917–2005","Pionero","The Spirit"]],
+["bio","Moebius (Jean Giraud)","MO","El francés Jean Giraud firmaba como «Gir» el western Blueberry y como «Moebius» sus mundos de ciencia ficción. En 1974 cofundó la revista Métal Hurlant y con Alejandro Jodorowsky creó El Incal. También trabajó como diseñador en películas como Alien, Tron y El quinto elemento.",["1938–2012","Dibujante","El Incal"]],
+["bio","Osamu Tezuka","OT","Considerado el «dios del manga», se recibió de médico y aun así eligió dibujar. Creó Astro Boy (1952), Kimba, el león blanco y Fénix, e impulsó el estilo de ojos grandes y narración cinematográfica que definió al manga moderno. También fue pionero del anime en televisión.",["1928–1989","Mangaka","Astro Boy"]]
+];
+const tiposHistoria={creacion:'CREACIÓN',curiosidad:'CURIOSO',bio:'BIOGRAFÍA'};
+function renderHistorias(cat){
+ const box=document.getElementById('historiasLista');box.replaceChildren();
+ historias.filter(h=>cat==='todas'||h[0]===cat).forEach(([tipo,titulo,icono,texto,chips])=>{
+  const card=document.createElement('article');card.className='story-card';
+  const head=document.createElement('div');head.className='story-head '+tipo;
+  const av=document.createElement('div');av.className='avatar'+(tipo==='bio'?'':' emoji');av.textContent=icono;
+  const kind=document.createElement('span');kind.className='story-kind';kind.textContent=tiposHistoria[tipo];
+  head.append(av,kind);
+  const body=document.createElement('div');body.className='story-body';
+  const h=document.createElement('h3');h.textContent=titulo;
+  const p=document.createElement('p');p.textContent=texto;
+  body.append(h,p);
+  chips.forEach(t=>{const c=document.createElement('span');c.className='tag';c.textContent=t.toUpperCase();c.style.marginRight='4px';body.append(c);});
+  card.append(head,body);box.append(card);
+ });
+}
+document.getElementById('filtrosHistorias').addEventListener('click',e=>{
+ const b=e.target.closest('button');if(!b)return;
+ document.querySelectorAll('#filtrosHistorias button').forEach(x=>x.classList.toggle('activo',x===b));
+ renderHistorias(b.dataset.cat);
+});
+renderHistorias('todas');
+// ===== Navegación entre vistas (sin depender del hash de la URL) =====
+function irA(id){
+ const hist=id==='historias';
+ document.getElementById('vistaHistorias').hidden=!hist;
+ document.getElementById('vistaInicio').hidden=hist;
+ const dest=document.getElementById(id);
+ if(hist||!dest||id==='inicio')window.scrollTo(0,0);else dest.scrollIntoView();
+}
+document.querySelectorAll('nav a[href^="#"], a[href="#inicio"]').forEach(a=>{
+ a.addEventListener('click',e=>{e.preventDefault();irA(a.getAttribute('href').slice(1));});
+});
+renderDescubrir();renderBusqueda();renderColeccion();
+</script>
+</body>
+</html>
